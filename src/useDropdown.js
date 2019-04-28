@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { ANIMALS } from "petfinder-client";
 
 const useDropdown = (label, defaultState, options) => {
   const [state, setState] = useState(defaultState);

@@ -1,20 +1,19 @@
 import React from "react";
 
-// const Pet = ({ name, animal, breed }) => {
-//   return React.createElement("div", {}, [
-//     React.createElement("h1", {}, name),
-//     React.createElement("h2", {}, animal),
-//     React.createElement("h2", {}, breed)
-//   ]);
-// };
-
-const Pet = ({ name, animal, breed }) => {
+const Pet = ({ name, animal, breed, media, location, id }) => {
+  const hero = media.photos.photo[0].value;
   return (
-    <div>
-      <h1>{name}</h1>
-      <h2>{animal}</h2>
-      <h2>{breed}</h2>
-    </div>
+    <a href={`/details/${id}`} className="pet">
+      <div className="image-container">
+        <img src={hero} alt={name} />
+      </div>
+      <div className="info">
+        <h1>{name}</h1>
+        <h2>
+          {animal} - {breed} - {location}
+        </h2>
+      </div>
+    </a>
   );
 };
 
