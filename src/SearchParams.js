@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
-
+import React, { useContext, useEffect, useState } from "react";
 import pf, { ANIMALS } from "petfinder-client";
+
+import ThemeContext from "./ThemeContext";
 import useDropdown from "./useDropdown";
 import Results from "./Results";
 
@@ -10,6 +11,7 @@ const petFinder = pf({
 });
 
 const SearchParams = () => {
+  const [theme, setTheme] = useContext(ThemeContext);
   const [pets, setPets] = useState([]);
   const [location, setLocation] = useState("Lansing, MI");
   const [breeds, setBreeds] = useState([]);
@@ -64,7 +66,20 @@ const SearchParams = () => {
         </label>
         <AnimalDropdown />
         <BreedDropdown />
-        <button>Submit</button>
+        <label htmlFor="theme">
+          <select
+            id="theme"
+            value={theme}
+            onBlur={e => setTheme(e.target.value)}
+            onChange={e => setTheme(e.target.value)}
+          >
+            <option value="darkblue">Dark Blue</option>
+            <option value="peru">Peru</option>
+            <option value="mediumaquamarine">Medium Aquamarine</option>
+            <option value="rebeccapurple">Rebecca Purple</option>
+          </select>
+        </label>
+        <button style={{ backgroundColor: theme }}>Submit</button>
       </form>
       <Results pets={pets} />
     </div>

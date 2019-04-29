@@ -1,0 +1,202 @@
+React 5
+ 
+unpkg - a can for pulling npm packages that doesn’t require nom
+ 
+React is shared by react-native and react-dom
+ 
+React (the package) is just a bunch of abstractions that are dispatched to the appropriate library
+ 
+createElement(tag name, {attributes}, children)
+ 
+React compiles everything down to “createElement” calls
+ 
+React has two kinds of components, class components or function components
+ 
+The children argument of createElement can either be an array or individual arguments
+* It is preferred to use arrays
+ 
+Each react child in a list should have a unique “key” prop
+ 
+The props object is the second argument to React.createElement;
+ 
+Prettier - an opinionated code formatter
+ 
+npx: command that reads a package directly off the npm registry without installing it
+ 
+Dev dependencies: packages we need to develop, that don’t get packaged for production
+ 
+Eslint
+ 
+* eslint has a debug mode npm run eslint — —debug
+* You can set the specific version of the ECMA spec in eslint
+* You can tell eslint to ignore missing file imports if you are requiring them globally by adding /* global React ReactDOM */ to the top of a file
+* Typescript listing is also moving to eslint (away from tslint)
+ 
+.gitignore
+ 
+ 
+PetFinder
+
+- API: vBtYuVqZHDDgZcpmn4Jni09PU3AFJfrtKGuf8JN5RO97VI2rpt
+- Secret: zYYQ5EYYMhUtX1aLehDhwPEJkCSxEbrQDR577ETB
+
+JavaScript Bundlers
+ 
+* Parcel: a new bundler with zero-config setup
+* Point parcel to your app’s entry point
+* Parcel understands how to parse jsx, scss, ts and a bunch of other stuff by default
+* Sometimes partial has a bad cache (usually we want parcel to cache to its heart’s content, but not always”
+* Parcel will also install packages for you without having to explicitly call npm i “some package”
+ 
+JSX
+ 
+* No one writes React with raw, un-transpiled js
+* JSX (JavaScript Expressions) allows you to write HTML in your javascript
+* We use () in return statements to signal to JS that we’re not done writing a statement. If we did not include these, the script would finish after the return statement
+* React components always start with an uppercase letter; this is necessary because react needs to coexist with any other web component (ex. X-date-picker)
+* Self-closing tags must be closed with a / (trailing slash). Otherwise it would break.
+* Comments in jsx {/* */}
+* You need to import React whenever you use JSX
+* Jsx-a11y helps with accessibility
+* You can suffix your js file with .js or .jsx, it’s totally up to you
+ 
+Hooks
+ 
+* Hooks are a fancy new way of working with state
+* When something changes in a react component, it rerenders anything that it thinks has changed
+* We need an array when using useState on the leftHandSide because useState returns an array that we are destructuring
+* Hooks have to stay in the same order between renders, which means you can’t dynamically set useState() const with if or use for loops
+* Anything can be used inside of useState() - strings, numbers, arrays, objects
+* We can create custom hooks
+* Custom hooks live in different files and “magically” working the app as expected
+* Hooks are incompatible with classes (meaning no mixing and matching)
+
+DevTools
+
+- Make sure to set NODE_ENV to development when working locally - it gives you more verbose errors
+- Parcel does everything in development mode until you create a build
+- Bundles created with Production NODE_ENV are much leaner (the react lib is about a third of the size)
+- React has a new strict mode. We can wrap apps with <React.Strict> components
+- <React.Strict> adds additional levels of warnings about soon-to-be-deprecated features
+- <React.Strict> gets stripped out in Production mode, so they’re safe to include in production apps
+-
+
+Effects Hook
+
+- useEffect is another hook. In our first case we’re using it to trigger an API call
+- useEffect is asynchronous. After the initial render, the  useEffect is function is invoked
+- Effects can be cleaned up when the component unmount
+- useEffects are for any side-effect that you want to add to your application. This includes sending or receiving information, changing a page title
+- Whatever function is returned by useEffects is called when the component is unmounted
+- We want to make sure useEffects is only called once/when necessary
+- To accomplish that, we provide the useEffect function with a second argument consisting of an array of things to watch
+- If we want our effect to one just once, we can pass it an empty array a second argument
+- useEffect is like “componentDidMount” and “componentDidUpdate” shoved together, plus componentWillUnmount at the end.   
+Async in React
+
+- Async keyword guarantees the the function will return a promise 
+
+Lifecycle methods
+
+- componentDidMount is called when the component is created
+- setState performs a shallow merge of the previous state with new values
+- Shallow merge means that the merging only happens at the top level (it doesn’t merge objects within objects)
+- ComponentDidUpdate is called every time there’s a state change in the component
+
+
+Routing in React
+
+- Reach Router (better accessibility, Gatsby uses it)
+- We wrap the components to which we can navigate with a <Router> component, and provide each wrapped component with a path
+- Wildcard variables included in path are accessible in the component through the props object
+-
+
+Public class properties
+
+- Technically an experimental part of JavaScript (Stage 3 of spec)
+- Public class properties can use arrow functions, which means we no longer have to bind “this” in a constructor
+- Arrow function context is determined at write-time, unlike other types of functions for which the context is determined at run time
+
+Static methods
+- Static methods are methods that can be called on uninstantiated classes
+- getDerivedStateFromProps must be a static method
+- It is called when the component mounts and when its props update
+- It is for “rare cases when state depends in changes to props over time”
+
+BabelRc
+
+- Two major concepts
+    - presets (a group of plugins for executing multiple related transformations)
+    - Plugins ( a single plugin for executing a transformation)
+    - Preset-env (compiles newer JS features to older ones)
+
+Error boundaries
+
+- A component you wrap other components in that handles errors
+- Kind of like a try/catch block
+- Implémentation courtesy of React docs
+- getDerivedStateFromError static method updates state in whatever way you like if there’s an error
+- componentDidCatch: a lifecycle method that you want to run whenever your component runs into an error. A use case would be logging to third-party services
+- ErrorBoundaries are not compatible with hooks
+- ErrorBoundaries cannot catch a boundary in it’s own component (It has to catch errors in lower components)
+
+
+
+Context
+
+- Context allows us to avoid “prop drilling” - passing props through several components to get to the component that actually needs it.
+- Context should be used “sparingly”, potentially as a replacement to redux
+- createContext requires default data
+- Context has has two elements in it - a consumer and a provider
+- The provider holds state, the consumer uses it
+- ThemContext.Provider is the “entry part of the wormhole
+- useContext (ThemeContext.Consumer) is the other side of the wormhole where information comes out.
+- Default value set in createContext is only used when a component does not have a matching Provider above it in the component tree
+- There’s a useContext hook for . . . reading Context
+
+
+Portals
+
+- A way to render components within a component hierarchy outside of the DOM hierarchy of the parent component
+- Example: We want to create a modal window deep within our app, but we want it to render as a sibling of the root div
+- We create a root element in which the portal will be rendered in the index.html
+- Portal basically works like ReactDOM.render
+- This is cool because we can use local state, events, event-bubbling as if the element were nested inside of a given component tree, but it is rendered elsewhere
+
+Refs
+
+- Like instance variables for functions inside of component
+-  Used when we want to access a piece of information that is always the same
+- The only thing you can change on elref is the current attribute
+- Refs are a pointer to the real Dom
+-
+
+ETC
+ 
+* htmlFor instead of for in HTML because for is a reserved word in JS
+* Same with className instead of class
+* Keys in iterable objects help react optimize renders. Looking at the key, react will understand whether it needs to destroy, create, or move an element
+* Keys are only accessible to react - we can’t access them via props
+* Don’t use indexes as keys. If the order of the iterable changes, then the point of the key will be lost 
+* Parcel can have problems picking up changes to environment variables
+* .env files are a common way to load secrets
+* We access environment variables in our code with process.env
+* You can con indicate what browsers your app is supporting with the “browsers list” attribute in package.json. Depending on the list, Parcel will decide what code features need to be transpiled. So, for example, it won’t error when Async/Await is used if targeted browsers support Async/Await
+* Within {} in React components, we can use expressions but not declarations
+* Props allow us to normalize data when dealing with an api. Rather than having components conform to the API’s decisions, we create reusable components that just need to know what kind of data to expect
+* @ prefix in npm allows you to scope packages to a specific user or organization
+* Scoped packages are technically a bit safer, since only organizations con publish under their @ tag
+* When we call super(props) in a React class, we are passing the props from this component UP to React
+* We don’t call setState within render. Render is purely presentational
+* Class component maybe marginally faster than hooks, but it is essentially meaningless
+* We need to install a babel parser for eslint so that we don’t get warnings about experimental features we’re using that will be successfully compiled
+* Dataset - special javascript API for pulling data attributes off of DOM elements
+* Parcel (with uglify) strips out parts of your code that can never be run
+* React has one-way data-flow. This makes components explicit, and the act of determining what a component requires easy.
+* “Function as child” - we add a function as a child to a component that { () => {} }
+* Premature optimization is bad, ….but the DOM API is slow
+* React uses a tree diffing algorithm to decide when a component needs to render
+* It will re-render all children of a parent if a parent prop changes
+* PureComponent and React.memo can be used to tell react not to rerender a component if
+    * the component receives the same props it did before
+    * The component will always return the same thing given the same props (deterministic)

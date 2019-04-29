@@ -1,9 +1,12 @@
 import React from "react";
+import { Link } from "@reach/router";
 
 const Pet = ({ name, animal, breed, media, location, id }) => {
-  const hero = media.photos.photo[0].value;
+  const hero = media.photos.photo.length
+    ? media.photos.photo[0].value
+    : "https://i.iheart.com/v3/re/new_assets/5c49d672c0f39c3bcbab4100?ops=max(650,0),quality(80)";
   return (
-    <a href={`/details/${id}`} className="pet">
+    <Link to={`/details/${id}`} className="pet">
       <div className="image-container">
         <img src={hero} alt={name} />
       </div>
@@ -13,7 +16,7 @@ const Pet = ({ name, animal, breed, media, location, id }) => {
           {animal} - {breed} - {location}
         </h2>
       </div>
-    </a>
+    </Link>
   );
 };
 
