@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { Router } from "@reach/router";
 
 import Details from "./Details";
+import Navbar from "./Navbar";
 import SearchParams from "./SearchParams";
 import ThemeContext from "./ThemeContext";
 
@@ -13,7 +14,7 @@ const App = () => {
     <React.StrictMode>
       <ThemeContext.Provider value={theme}>
         <div>
-          <h1>Adopt Me!</h1>
+          <Navbar />
           <Router>
             <SearchParams path="/" />
             <Details path="/details/:id" />
