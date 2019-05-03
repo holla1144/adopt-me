@@ -1,14 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
+import isNode from "is-node";
 import pf, { ANIMALS } from "petfinder-client";
 
 import ThemeContext from "./ThemeContext";
 import useDropdown from "./useDropdown";
 import Results from "./Results";
 
-const petFinder = pf({
-  key: process.env.API_KEY,
-  secret: process.env.API_SECRET
-});
+let petFinder;
+if (!isNode) {
+  petFinder = pf({
+    key: process.env.API_KEY,
+    secret: process.env.API_SECRET
+  });
+}
 
 const SearchParams = () => {
   const [theme, setTheme] = useContext(ThemeContext);
@@ -19,6 +23,7 @@ const SearchParams = () => {
   const [breed, BreedDropdown, setBreed] = useDropdown("Breed", "", breeds);
 
   async function requestPets() {
+    console.log("request pets called");
     const res = await petFinder.pet.find({
       location,
       breed,
@@ -52,6 +57,7 @@ const SearchParams = () => {
       <form
         onSubmit={e => {
           e.preventDefault();
+          alert("submit");
           requestPets();
         }}
       >
@@ -79,7 +85,12 @@ const SearchParams = () => {
             <option value="rebeccapurple">Rebecca Purple</option>
           </select>
         </label>
-        <button style={{ backgroundColor: theme }}>Submit</button>
+        <button
+          onClick={() => alert("clicked")}
+          style={{ backgroundColor: theme }}
+        >
+          Submit
+        </button>
       </form>
       <Results pets={pets} />
     </div>

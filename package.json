@@ -4,17 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "parcel build --public-url ./dist/ src/index.html",
     "clear-build-cache": "rm -rf dist/ .cache/",
     "dev": "parcel src/index.html",
     "format": "prettier --write \"src/**/*.{js, jsx}\"",
     "format:check": "prettier --list-different \"src/**/*.{js, jsx}\"",
     "lint": "eslint \"src/**/*.{js, jsx}\" --quiet --fix",
+    "start": "npm run build -s && babel-node server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.4",
+    "@babel/node": "^7.2.2",
     "@babel/plugin-proposal-class-properties": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
@@ -30,6 +34,8 @@
   },
   "dependencies": {
     "@reach/router": "^1.2.1",
+    "express": "^4.16.4",
+    "is-node": "^1.0.2",
     "petfinder-client": "^2.0.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
