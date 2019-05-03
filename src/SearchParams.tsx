@@ -1,28 +1,38 @@
-import React, { useContext, useEffect, useState } from "react";
-import pf, { ANIMALS } from "petfinder-client";
+import { RouteComponentProps } from "@reach/router";
+import pf, {ANIMALS, Pet} from "petfinder-client";
+import React, {
+  FunctionComponent,
+  useContext,
+  useEffect,
+  useState
+} from "react";
 
+import Results from "./Results";
 import ThemeContext from "./ThemeContext";
 import useDropdown from "./useDropdown";
-import Results from "./Results";
+
+if (!process.env.API_KEY || !process.env.API_SECRET) {
+  throw new Error("No API keys available, what's wrong with you?");
+}
 
 const petFinder = pf({
   key: process.env.API_KEY,
   secret: process.env.API_SECRET
 });
 
-const SearchParams = () => {
+const SearchParams: FunctionComponent<RouteComponentProps> = () => {
   const [theme, setTheme] = useContext(ThemeContext);
-  const [pets, setPets] = useState([]);
+  const [pets, setPets] = useState([] as Pet[]);
   const [location, setLocation] = useState("Lansing, MI");
-  const [breeds, setBreeds] = useState([]);
+  const [breeds, setBreeds] = useState([] as string[]);
   const [animal, AnimalDropdown] = useDropdown("Animal", "dog", ANIMALS);
   const [breed, BreedDropdown, setBreed] = useDropdown("Breed", "", breeds);
 
   async function requestPets() {
     const res = await petFinder.pet.find({
-      location,
-      breed,
       animal,
+      breed,
+      location,
       output: "full"
     });
 

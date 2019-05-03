@@ -1,6 +1,6 @@
+import { Router } from "@reach/router";
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import { Router } from "@reach/router";
 
 import Details from "./Details";
 import SearchParams from "./SearchParams";

@@ -1,39 +1,67 @@
-import React, { Component } from "react";
-import pf from "petfinder-client";
+import { navigate, RouteComponentProps } from "@reach/router";
+import pf, { PetMedia } from "petfinder-client";
+import React, {Component, FunctionComponent} from "react";
 
 import Carousel from "./Carousel";
 import ErrorBoundary from "./ErrorBoundary";
 import Modal from "./Modal";
 import ThemeContext from "./ThemeContext";
-const petfinder = pf();
 
-class Details extends Component {
-  state = { loading: true, showModal: false };
+if (!process.env.API_KEY || !process.env.API_SECRET) {
+  throw new Error("No API keys available, what's wrong with you?");
+}
 
-  componentDidMount() {
+const petfinder = pf({
+  key: process.env.API_KEY,
+  secret: process.env.API_SECRET
+});
+
+interface IProps {
+  id: string;
+}
+
+class Details extends Component<RouteComponentProps<IProps>> {
+  public state = {
+    animal: "",
+    breed: "",
+    description: "",
+    loading: true,
+    location: "",
+    media: {} as PetMedia,
+    name: "",
+    showModal: false
+  };
+
+  public componentDidMount() {
+    if (!this.props.id) {
+      navigate("/");
+      return;
+    }
+
     petfinder.pet
       .get({
-        output: "full",
-        id: this.props.id
+        id: this.props.id,
+        output: "full"
       })
       .then(data => {
         this.setState({
-          name: data.petfinder.pet.name,
           animal: data.petfinder.pet.animal,
+          breed: data.petfinder.pet.breeds.breed,
+          description: data.petfinder.pet.description,
+          loading: false,
           location: `${data.petfinder.pet.contact.city}, ${
             data.petfinder.pet.contact.state
           }`,
-          description: data.petfinder.pet.description,
           media: data.petfinder.pet.media,
-          breed: data.petfinder.pet.breeds.breed,
-          loading: false
+          name: data.petfinder.pet.name
         });
       });
   }
 
-  toggleModal = () => this.setState({ showModal: !this.state.showModal });
+  public toggleModal = () =>
+    this.setState({ showModal: !this.state.showModal });
 
-  render() {
+  public render() {
     if (this.state.loading) {
       return <h1>Loading . . . </h1>;
     }
@@ -41,10 +69,10 @@ class Details extends Component {
     const {
       animal,
       breed,
-      location,
       description,
-      name,
+      location,
       media,
+      name,
       showModal
     } = this.state;
 
@@ -84,7 +112,7 @@ class Details extends Component {
   }
 }
 
-export default function DetailsWithErrorBoundary(props) {
+export default function DetailsWithErrorBoundary(props: RouteComponentProps<IProps>) {
   return (
     <ErrorBoundary>
       <Details {...props} />

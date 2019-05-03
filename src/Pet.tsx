@@ -1,7 +1,18 @@
-import React from "react";
 import { Link } from "@reach/router";
+import { PetMedia } from "petfinder-client";
+import React from "react";
 
-const Pet = ({ name, animal, breed, media, location, id }) => {
+
+interface IProps {
+  animal: string,
+  breed: string,
+  id: string,
+  location: string,
+  media: PetMedia,
+  name: string
+}
+
+const Pet = ({ name, animal, breed, media, location, id }: IProps) => {
   const hero = media.photos.photo.length
     ? media.photos.photo[0].value
     : "https://i.iheart.com/v3/re/new_assets/5c49d672c0f39c3bcbab4100?ops=max(650,0),quality(80)";
